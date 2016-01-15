@@ -1,0 +1,48 @@
+---
+- name: Debian | check if /var/solr exists
+  stat: path=/var/solr
+  register: solr_data_dir
+
+- block:
+  - name: Debian | Install Java
+    apt:
+     name={{ apache_solr.java }}
+     state=present
+     update_cache=yes
+    when: apache_solr.java is defined
+
+  - name: Debian | Download Apache Solr
+    get_url:
+     url={{ apache_solr.download_url }}
+     dest=/opt/{{ apache_solr.download_url | basename }}
+
+  - name: Debian | Extract the install_solr_service.sh script from the archive
+    shell: "tar xzf solr-{{ version.stdout }}.tgz solr-{{ version.stdout }}/bin/install_solr_service.sh --strip-components=2"
+    args:
+     chdir: /opt
+
+  - name: Debian | Run the installer script
+    shell: "bash ./install_solr_service.sh solr-{{ version.stdout }}.tgz -f"
+    args:
+     chdir: /opt
+    register: inst_out
+
+  - debug: msg="{{ inst_out }}"
+
+  - name: Debian | Remove the installer script
+    file:
+     path=/opt/install_solr_service.sh
+     state=absent
+  when: not solr_data_dir.stat.exists
+
+- name: Debian | copy Solr defaults to /etc/default/solr.in.sh
+  template:
+   src=Debian/solr-{{ version.stdout }}.in.sh.j2
+   dest=/etc/default/solr.in.sh
+  notify: restart solr
+
+- name: Debian | Copy log4j.properties to /var/solr/log4j.properties
+  template:
+   src={{ apache_solr_log4j }}
+   dest=/var/solr/log4j.properties
+  notify: restart solr

@@ -1,0 +1,7 @@
+---
+apache_solr:
+ download_url: http://archive.apache.org/dist/lucene/solr/5.4.0/solr-5.4.0.tgz
+ #java: openjdk-7-jdk (OPTIONAL)
+
+apache_solr_log4j: log4j.properties.j2
+apache_solr_env: Debian/solr-5.4.0.in.sh.j2
