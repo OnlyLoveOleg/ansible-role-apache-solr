@@ -12,9 +12,11 @@ using only the defaults.
 
 Defaults:
 
+```
  Solr installation dir (solr.install.dir): /opt/solr
  Solr home dir (solr.solr.home):           /var/solr/data
  Environment overrides include file:       /etc/default/solr.in.sh
+```
 
 
 Requirements
@@ -37,13 +39,13 @@ apache_solr:
 
 apache_solr_log4j: log4j.properties.j2
 apache_solr_env: Debian/solr-5.4.0.in.sh.j2
-```
 
 NOTES: Java - you can uncomment apache_solr.java to install the JDK or define apache_solr in
               group_vars or host_vars based on your needs.
 
        apache_solr_log4j and apache_solr_env can be relative or full path to the actual files
        to be copied to remote.
+```
 
 
 Example Playbook
@@ -54,6 +56,7 @@ Example Playbook
   roles:
    - apache-solr
 ```
+
 
 License
 -------
