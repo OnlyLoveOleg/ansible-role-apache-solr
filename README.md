@@ -19,14 +19,6 @@ Defaults:
 ```
 
 
-Requirements
-------------
-
-Java
-
-Optional you can set a variable to install java see details below.
-
-
 Role Variables
 --------------
 
@@ -35,13 +27,12 @@ defaults/main.yml
 ```
 apache_solr:
  download_url: http://archive.apache.org/dist/lucene/solr/5.4.0/solr-5.4.0.tgz
- #java: openjdk-7-jdk (OPTIONAL)
+ java: openjdk-7-jdk
 
 apache_solr_log4j: log4j.properties.j2
 apache_solr_env: Debian/solr-5.4.0.in.sh.j2
 
-NOTES: Java - you can uncomment apache_solr.java to install the JDK or define apache_solr in
-              group_vars or host_vars based on your needs.
+NOTES: Java - you can comment apache_solr.java if you manage Java outside of this role.
 
        apache_solr_log4j and apache_solr_env can be relative or full path to the actual files
        to be copied to remote.
@@ -52,7 +43,7 @@ Example Playbook
 ----------------
 
 ```
-- hosts: MySolrServers
+- hosts: us-east-1b-prod-search
   roles:
    - apache-solr
 ```
