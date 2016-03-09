@@ -37,7 +37,7 @@
 
 - name: Debian | copy Solr defaults to /etc/default/solr.in.sh
   template:
-   src=Debian/solr-{{ version.stdout }}.in.sh.j2
+   src=Debian/solr.in.sh.j2
    dest=/etc/default/solr.in.sh
   notify: restart solr
 
